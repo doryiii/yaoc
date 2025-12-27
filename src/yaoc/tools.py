@@ -41,8 +41,11 @@ class WebAccess:
     """Get content of a webpage."""
     if not url.startswith(("http://", "https://")):
       url = "https://" + url
-    webres = requests.get(url)
-    webres.raise_for_status()
+    try:
+      webres = requests.get(url)
+      webres.raise_for_status()
+    except requests.exceptions.RequestException as e:
+      return f"Error fetching {url}: {e}"
     return html2text.html2text(webres.text)
 
   def web_search(
