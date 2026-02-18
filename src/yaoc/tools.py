@@ -93,6 +93,18 @@ class FileAccess:
       f.write(content)
     return "Done"
 
+  def find_file(
+      name: Annotated[str, Field(description="the file name or pattern to search for")],
+      directory: Annotated[str, Field(description="the directory to search in. Defaults to current directory.")] = ".",
+  ):
+    """Find files by name in a directory."""
+    matches = []
+    for root, dirs, files in os.walk(directory):
+      for filename in files:
+        if name in filename:
+          matches.append(os.path.join(root, filename))
+    return "\n".join(matches) if matches else "No files found."
+
 
 TOOL_TYPE = {"basic": Basic, "web_access": WebAccess, "file_access": FileAccess}
 
