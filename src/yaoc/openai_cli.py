@@ -106,6 +106,8 @@ def print_response(console, response, hide_thinking):
       answer_marker = "<|end|>"
     elif "</think>" in content:
       answer_marker = "</think>"
+    elif "</thought>" in content:
+      answer_marker = "</thought>"
 
     if not answer_marker:
       thinking_text = ""
